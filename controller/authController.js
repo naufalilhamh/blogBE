@@ -25,7 +25,7 @@ exports.signup = asyncMiddleware(async (req, res) => {
   });
   await user.setRoles(roles);
   res.status(201).send({
-    status: "User registered successfully!"
+    status: "User Berhasil Dibuat!"
   });
 });
 exports.signin = asyncMiddleware(async (req, res) => {
@@ -39,7 +39,7 @@ exports.signin = asyncMiddleware(async (req, res) => {
     return res.status(404).send({
       auth: false,
       accessToken: null,
-      reason: "User Not Found!"
+      reason: "User Tidak Ada!"
     });
   }
   const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
@@ -47,7 +47,7 @@ exports.signin = asyncMiddleware(async (req, res) => {
     return res.status(401).send({
       auth: false,
       accessToken: null,
-      reason: "Invalid Password!"
+      reason: "Password Salah!"
     });
   }
 

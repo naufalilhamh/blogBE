@@ -13,7 +13,7 @@ exports.addbook = asyncMiddleware(async (req, res) => {
   });
   console.log("tes error gaes");
   res.status(201).send({
-    status: "New book added successfully!"
+    status: "Buku Berhasil Dibuat!"
   });
 });
 
@@ -30,7 +30,7 @@ exports.updateBook = asyncMiddleware(async (req, res) => {
     { where: { id: req.params.id } }
   );
   res.status(201).send({
-    status: "Book updated successfully!"
+    status: "Buku Berhasil DiUpdate!"
   });
 });
 
@@ -41,7 +41,7 @@ exports.showBook = asyncMiddleware(async (req, res) => {
     attributes: ["title", "author", "page", "language", "publisher_id"]
   });
   res.status(200).json({
-    description: "Showing book",
+    description: "Tampil Buku",
     user: user
   });
 });
@@ -52,7 +52,7 @@ exports.showAll = asyncMiddleware(async (req, res) => {
     attributes: ["title", "author", "page", "language", "publisher_id"]
   });
   res.status(200).json({
-    description: "Showing all book",
+    description: "Tampil Semua Buku",
     book: book
   });
 });
@@ -61,6 +61,6 @@ exports.showAll = asyncMiddleware(async (req, res) => {
 exports.deleteBook = asyncMiddleware(async (req, res) => {
   await Book.destroy({ where: { id: req.params.id } });
   res.status(201).send({
-    status: "Book deleted successfully!"
+    status: "Hapus Buku Berhasil!"
   });
 });

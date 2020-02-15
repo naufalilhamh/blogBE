@@ -37,7 +37,7 @@ exports.userContent = asyncMiddleware(async (req, res) => {
     ]
   });
   res.status(200).json({
-    description: "User Content Page",
+    description: "Halaman Content User",
     user: user
   });
 });
@@ -57,7 +57,7 @@ exports.adminBoard = asyncMiddleware(async (req, res) => {
     ]
   });
   res.status(200).json({
-    description: "Admin Board",
+    description: "Halaman Admin",
     user: user
   });
 });
@@ -77,7 +77,7 @@ exports.managementBoard = asyncMiddleware(async (req, res) => {
     ]
   });
   res.status(200).json({
-    description: "Management Board",
+    description: "Halaman Management",
     user: user
   });
 });

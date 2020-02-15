@@ -15,7 +15,7 @@ exports.ordering = asyncMiddleware(async (req, res) => {
   });
   await user.addBooks(books);
   res.status(201).send({
-    status: "Order registered successfully!"
+    status: "Order Berhasil Dibuat!"
   });
 });
 
@@ -34,7 +34,7 @@ exports.orders = asyncMiddleware(async (req, res) => {
     ]
   });
   res.status(200).json({
-    description: "All Order",
+    description: "Tampil Semua Order",
     user: user
   });
 });
@@ -54,9 +54,8 @@ exports.getOrder = asyncMiddleware(async (req, res) => {
       }
     ]
   });
-  console.log("tes eror bisa kali");
   res.status(200).json({
-    description: "User order page",
+    description: "Halama Order User",
     user: user
   });
 });
