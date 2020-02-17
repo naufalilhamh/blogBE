@@ -6,6 +6,9 @@ module.exports = (sequelize, Sequelize) => {
     author: {
       type: Sequelize.STRING
     },
+    published_date: {
+      type: Sequelize.DATE
+    },
     page: {
       type: Sequelize.INTEGER
     },

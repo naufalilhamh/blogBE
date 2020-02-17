@@ -11,7 +11,7 @@ exports.ordering = asyncMiddleware(async (req, res) => {
     where: { id: req.userId }
   });
   const books = await Book.findOne({
-    where: { id: req.params.id }
+    where: { id: req.body.id }
   });
   await user.addBooks(books);
   res.status(201).send({
@@ -26,7 +26,14 @@ exports.orders = asyncMiddleware(async (req, res) => {
     include: [
       {
         model: Book,
-        attributes: ["title", "author", "pages", "language", "publisher_id"],
+        attributes: [
+          "title",
+          "author",
+          "published_date",
+          "page",
+          "language",
+          "publisher_id"
+        ],
         through: {
           attributes: ["userId", "bookId"]
         }
@@ -47,7 +54,14 @@ exports.getOrder = asyncMiddleware(async (req, res) => {
     include: [
       {
         model: Book,
-        attributes: ["title", "author", "page", "language", "publisher_id"],
+        attributes: [
+          "title",
+          "author",
+          "published_date",
+          "page",
+          "language",
+          "publisher_id"
+        ],
         through: {
           attributes: ["userId", "bookId"]
         }
@@ -55,7 +69,7 @@ exports.getOrder = asyncMiddleware(async (req, res) => {
     ]
   });
   res.status(200).json({
-    description: "Halama Order User",
+    description: "Halaman Order User",
     user: user
   });
 });

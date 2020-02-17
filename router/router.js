@@ -6,35 +6,35 @@ const orderController = require("../controller/orderController.js");
 const bookController = require("../controller/bookController.js");
 
 module.exports = function(app) {
-  ///////////////////////////////////ini untuk BOOK/////////////////////////////////////////
-  /* GET book. */
+  //ini bagian book
+  /* Tampil book. */
   app.get("/books", [authJwt.verifyToken], bookController.showAll);
 
-  /* GET book by ID. */
+  /* Tampil book by ID. */
   app.get("/books/:id", [authJwt.verifyToken], bookController.showBook);
 
-  /* ADD book. */
+  /* Tambah book. */
   app.post(
     "/books",
     [authJwt.verifyToken, authJwt.isAdmin],
     bookController.addbook
   );
 
-  /* UPDATE book. */
+  /* Ubah book. */
   app.put(
     "/books/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
     bookController.updateBook
   );
 
-  /* DELETE book. */
+  /* Hapus book. */
   app.delete(
     "/books/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
     bookController.deleteBook
   );
 
-  ////////////////////////////////////ini untuk USER/////////////////////////////////////////////
+  //ini bagian user
   /* REGISTER user. */
   app.post(
     "/register",
@@ -50,15 +50,15 @@ module.exports = function(app) {
   /* SHOW all users. */
   app.get("/users", [authJwt.verifyToken], userController.users);
 
-  ///////////////////////////ini untuk ORDER///////////////////////////////////////////////////
-  /* GET all orders. */
+  //ini bagian user
+  /* Tampil all orders. */
   app.get("/orders", [authJwt.verifyToken], orderController.orders);
 
-  /* GET order by user ID. */
+  /* Tampil order by user ID. */
   app.get("/orders/:id", [authJwt.verifyToken], orderController.getOrder);
 
-  /* ADD order. */
-  app.post("/orders/:id", [authJwt.verifyToken], orderController.ordering);
+  /* Input order. */
+  app.post("/orders", [authJwt.verifyToken], orderController.ordering);
 
   // error handler 404
   app.use(function(req, res, next) {

@@ -7,6 +7,7 @@ exports.addbook = asyncMiddleware(async (req, res) => {
   await Book.create({
     title: req.body.title,
     author: req.body.author,
+    published_date: req.body.published_date,
     page: req.body.page,
     language: req.body.language,
     publisher_id: req.body.publisher_id
@@ -23,6 +24,7 @@ exports.updateBook = asyncMiddleware(async (req, res) => {
     {
       title: req.body.title,
       author: req.body.author,
+      published_date: req.body.published_date,
       page: req.body.page,
       language: req.body.language,
       publisher_id: req.body.publisher_id
@@ -38,7 +40,14 @@ exports.updateBook = asyncMiddleware(async (req, res) => {
 exports.showBook = asyncMiddleware(async (req, res) => {
   await Book.findOne({
     where: { id: req.params.id },
-    attributes: ["title", "author", "page", "language", "publisher_id"]
+    attributes: [
+      "title",
+      "author",
+      "published_date",
+      "page",
+      "language",
+      "publisher_id"
+    ]
   });
   res.status(200).json({
     description: "Tampil Buku",
@@ -49,7 +58,14 @@ exports.showBook = asyncMiddleware(async (req, res) => {
 //show all books
 exports.showAll = asyncMiddleware(async (req, res) => {
   const book = await Book.findAll({
-    attributes: ["title", "author", "page", "language", "publisher_id"]
+    attributes: [
+      "title",
+      "author",
+      "published_date",
+      "page",
+      "language",
+      "publisher_id"
+    ]
   });
   res.status(200).json({
     description: "Tampil Semua Buku",
