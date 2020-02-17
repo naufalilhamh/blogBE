@@ -2,7 +2,7 @@ const db = require("../app/db.js");
 const Book = db.book;
 const asyncMiddleware = require("express-async-handler");
 
-exports.addbook = asyncMiddleware(async (req, res) => {
+exports.tambahbuku = asyncMiddleware(async (req, res) => {
   // Add book to Database
   await Book.create({
     title: req.body.title,
@@ -12,14 +12,13 @@ exports.addbook = asyncMiddleware(async (req, res) => {
     language: req.body.language,
     publisher_id: req.body.publisher_id
   });
-  console.log("tes error gaes");
   res.status(201).send({
     status: "Buku Berhasil Dibuat!"
   });
 });
 
-//update book by id
-exports.updateBook = asyncMiddleware(async (req, res) => {
+//Ubah buku by id
+exports.updatebuku = asyncMiddleware(async (req, res) => {
   await Book.update(
     {
       title: req.body.title,
@@ -36,11 +35,12 @@ exports.updateBook = asyncMiddleware(async (req, res) => {
   });
 });
 
-//show book by id
-exports.showBook = asyncMiddleware(async (req, res) => {
+//tampil buku by id
+exports.tampilbuku = asyncMiddleware(async (req, res) => {
   await Book.findOne({
     where: { id: req.params.id },
     attributes: [
+      "id",
       "title",
       "author",
       "published_date",
@@ -55,10 +55,11 @@ exports.showBook = asyncMiddleware(async (req, res) => {
   });
 });
 
-//show all books
-exports.showAll = asyncMiddleware(async (req, res) => {
+//tampil buku by id
+exports.tampilsemuabuku = asyncMiddleware(async (req, res) => {
   const book = await Book.findAll({
     attributes: [
+      "id",
       "title",
       "author",
       "published_date",
@@ -74,7 +75,7 @@ exports.showAll = asyncMiddleware(async (req, res) => {
 });
 
 //delete book by id
-exports.deleteBook = asyncMiddleware(async (req, res) => {
+exports.hapusbuku = asyncMiddleware(async (req, res) => {
   await Book.destroy({ where: { id: req.params.id } });
   res.status(201).send({
     status: "Hapus Buku Berhasil!"

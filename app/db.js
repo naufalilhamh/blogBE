@@ -18,6 +18,19 @@ db.user = require("../model/user.js")(sequelize, Sequelize);
 db.role = require("../model/role.js")(sequelize, Sequelize);
 db.book = require("../model/book.js")(sequelize, Sequelize);
 
+//relasi role user
+db.role.belongsToMany(db.user, {
+  through: "user_roles",
+  foreignKey: "roleId",
+  otherKey: "userId"
+});
+db.user.belongsToMany(db.role, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId"
+});
+
+//relasi user book
 db.user.belongsToMany(db.book, {
   through: "book_user",
   foreignKey: "userId",
@@ -29,14 +42,4 @@ db.book.belongsToMany(db.user, {
   otherKey: "userId"
 });
 
-db.role.belongsToMany(db.user, {
-  through: "user_roles",
-  foreignKey: "roleId",
-  otherKey: "userId"
-});
-db.user.belongsToMany(db.role, {
-  through: "user_roles",
-  foreignKey: "userId",
-  otherKey: "roleId"
-});
 module.exports = db;

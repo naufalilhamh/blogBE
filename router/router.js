@@ -6,35 +6,33 @@ const orderController = require("../controller/orderController.js");
 const bookController = require("../controller/bookController.js");
 
 module.exports = function(app) {
-  //ini bagian book
   /* Tampil book. */
-  app.get("/books", [authJwt.verifyToken], bookController.showAll);
+  app.get("/books", [authJwt.verifyToken], bookController.tampilsemuabuku);
 
   /* Tampil book by ID. */
-  app.get("/books/:id", [authJwt.verifyToken], bookController.showBook);
+  app.get("/books/:id", [authJwt.verifyToken], bookController.tampilbuku);
 
   /* Tambah book. */
   app.post(
     "/books",
     [authJwt.verifyToken, authJwt.isAdmin],
-    bookController.addbook
+    bookController.tambahbuku
   );
 
   /* Ubah book. */
   app.put(
     "/books/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
-    bookController.updateBook
+    bookController.updatebuku
   );
 
   /* Hapus book. */
   app.delete(
     "/books/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
-    bookController.deleteBook
+    bookController.hapusbuku
   );
 
-  //ini bagian user
   /* REGISTER user. */
   app.post(
     "/register",
@@ -47,18 +45,18 @@ module.exports = function(app) {
   /* LOGIN user. */
   app.post("/login", authController.signin);
 
-  /* SHOW all users. */
+  /* tampil semuausers. */
   app.get("/users", [authJwt.verifyToken], userController.users);
 
   //ini bagian user
-  /* Tampil all orders. */
-  app.get("/orders", [authJwt.verifyToken], orderController.orders);
+  //tampil semua order
+  app.get("/orders", [authJwt.verifyToken], orderController.tampilorder);
 
-  /* Tampil order by user ID. */
-  app.get("/orders/:id", [authJwt.verifyToken], orderController.getOrder);
+  //tampil order
+  app.get("/orders/:id", [authJwt.verifyToken], orderController.AmbilOrder);
 
-  /* Input order. */
-  app.post("/orders", [authJwt.verifyToken], orderController.ordering);
+  //input order
+  app.post("/orders", [authJwt.verifyToken], orderController.tambahorder);
 
   // error handler 404
   app.use(function(req, res, next) {

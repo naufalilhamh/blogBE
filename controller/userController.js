@@ -17,7 +17,7 @@ exports.users = asyncMiddleware(async (req, res) => {
     ]
   });
   res.status(200).json({
-    description: "All User",
+    description: "Semua User",
     user: user
   });
 });

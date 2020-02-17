@@ -4,7 +4,7 @@ const Book = db.book;
 
 const asyncMiddleware = require("express-async-handler");
 
-exports.ordering = asyncMiddleware(async (req, res) => {
+exports.tambahorder = asyncMiddleware(async (req, res) => {
   // Save order to Database
   console.log("Processing func -> Ordering");
   const user = await User.findOne({
@@ -20,13 +20,14 @@ exports.ordering = asyncMiddleware(async (req, res) => {
 });
 
 //show all orders
-exports.orders = asyncMiddleware(async (req, res) => {
+exports.tampilorder = asyncMiddleware(async (req, res) => {
   const user = await User.findAll({
     attributes: ["name", "username", "email"],
     include: [
       {
         model: Book,
         attributes: [
+          "id",
           "title",
           "author",
           "published_date",
@@ -47,7 +48,7 @@ exports.orders = asyncMiddleware(async (req, res) => {
 });
 
 //find order by user id
-exports.getOrder = asyncMiddleware(async (req, res) => {
+exports.AmbilOrder = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
     where: { id: req.userId },
     attributes: ["name", "username", "email"],
@@ -55,6 +56,7 @@ exports.getOrder = asyncMiddleware(async (req, res) => {
       {
         model: Book,
         attributes: [
+          "id",
           "title",
           "author",
           "published_date",

@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING
     },
     publisher_id: {
-      type: Sequelize.INTEGER
+      type: Sequelize.STRING
     }
   });
   return Book;
