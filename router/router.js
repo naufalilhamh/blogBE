@@ -10,7 +10,7 @@ module.exports = function(app) {
   app.get("/books", [authJwt.verifyToken], bookController.tampilsemuabuku);
 
   /* Tampil book by ID. */
-  app.get("/books/:id", [authJwt.verifyToken], bookController.tampilbuku);
+  app.get("/books/:id", [authJwt.verifyToken], bookController.caribuku);
 
   /* Tambah book. */
   app.post(

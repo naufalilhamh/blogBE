@@ -36,8 +36,8 @@ exports.updatebuku = asyncMiddleware(async (req, res) => {
 });
 
 //tampil buku by id
-exports.tampilbuku = asyncMiddleware(async (req, res) => {
-  await Book.findOne({
+exports.caribuku = asyncMiddleware(async (req, res) => {
+  const book = await Book.findOne({
     where: { id: req.params.id },
     attributes: [
       "id",
@@ -51,7 +51,7 @@ exports.tampilbuku = asyncMiddleware(async (req, res) => {
   });
   res.status(200).json({
     description: "Tampil Buku",
-    user: user
+    book: book
   });
 });
 
