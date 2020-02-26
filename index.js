@@ -2,8 +2,12 @@ var express = require("express");
 var app = express();
 var morgan = require("morgan");
 var bodyParser = require("body-parser");
+var cors = require("cors");
+
 app.use(bodyParser.json());
 app.use(morgan("common"));
+app.use(cors());
+
 require("./router/router.js")(app);
 
 // const db = require("./app/db.js");

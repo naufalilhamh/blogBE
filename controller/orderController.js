@@ -11,7 +11,7 @@ exports.tambahorder = asyncMiddleware(async (req, res) => {
     where: { id: req.userId }
   });
   const books = await Book.findOne({
-    where: { id: req.body.id }
+    where: { id: req.params.id }
   });
   await user.addBooks(books);
   res.status(201).send({

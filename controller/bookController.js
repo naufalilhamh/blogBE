@@ -51,7 +51,7 @@ exports.caribuku = asyncMiddleware(async (req, res) => {
   });
   res.status(200).json({
     description: "Tampil Buku",
-    book: book
+    data: book
   });
 });
 
@@ -70,7 +70,7 @@ exports.tampilsemuabuku = asyncMiddleware(async (req, res) => {
   });
   res.status(200).json({
     description: "Tampil Semua Buku",
-    book: book
+    data: book
   });
 });
 

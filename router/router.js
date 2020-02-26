@@ -1,4 +1,5 @@
 const verifySignUp = require("./verifySignUp");
+const bookAuth = require("./verifyBook");
 const authJwt = require("./verifyJwtToken");
 const authController = require("../controller/authController.js");
 const userController = require("../controller/userController.js");
@@ -7,56 +8,74 @@ const bookController = require("../controller/bookController.js");
 
 module.exports = function(app) {
   /* Tampil book. */
-  app.get("/books", [authJwt.verifyToken], bookController.tampilsemuabuku);
+  app.get(
+    "/books",
+    // , [authJwt.verifyToken]
+    bookController.tampilsemuabuku
+  );
 
   /* Tampil book by ID. */
-  app.get("/books/:id", [authJwt.verifyToken], bookController.caribuku);
+  app.get(
+    "/books/:id",
+    // [authJwt.verifyToken],
+    bookController.caribuku
+  );
 
   /* Tambah book. */
   app.post(
     "/books",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    // [authJwt.verifyToken, bookAuth.checkDuplicate, authJwt.isAdmin],
     bookController.tambahbuku
   );
 
   /* Ubah book. */
   app.put(
     "/books/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    // [authJwt.verifyToken, authJwt.isAdmin],
     bookController.updatebuku
   );
 
   /* Hapus book. */
   app.delete(
     "/books/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    // [authJwt.verifyToken, authJwt.isAdmin],
     bookController.hapusbuku
   );
 
   /* REGISTER user. */
   app.post(
     "/register",
-    [
-      verifySignUp.checkDuplicateUserNameOrEmail,
-      verifySignUp.checkRolesExisted
-    ],
+    // [verifySignUp.checkRolesExisted],
     authController.signup
   );
   /* LOGIN user. */
   app.post("/login", authController.signin);
 
   /* tampil semuausers. */
-  app.get("/users", [authJwt.verifyToken], userController.users);
+  app.get(
+    "/users",
+    // [authJwt.verifyToken],
+    userController.users
+  );
+  app.get(
+    "/users/:id",
+    // [authJwt.verifyToken],
+    userController.userContent
+  );
 
   //ini bagian user
   //tampil semua order
-  app.get("/orders", [authJwt.verifyToken], orderController.tampilorder);
+  app.get(
+    "/orders",
+    // [authJwt.verifyToken]
+    orderController.tampilorder
+  );
 
   //tampil order
   app.get("/orders/:id", [authJwt.verifyToken], orderController.AmbilOrder);
 
   //input order
-  app.post("/orders", [authJwt.verifyToken], orderController.tambahorder);
+  app.post("/orders/:id", [authJwt.verifyToken], orderController.tambahorder);
 
   // error handler 404
   app.use(function(req, res, next) {
