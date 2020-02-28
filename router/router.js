@@ -57,6 +57,12 @@ module.exports = function(app) {
     // [authJwt.verifyToken],
     userController.users
   );
+  app.put(
+    "/users/:id",
+    // [authJwt.verifyToken],
+    userController.updatestatus
+  );
+
   app.get(
     "/users/:id",
     // [authJwt.verifyToken],

@@ -3,29 +3,22 @@ const config = require("../app/config.js");
 const User = db.user;
 const Role = db.role;
 const asyncMiddleware = require("express-async-handler");
-const sgMail = require("@sendgrid/mail");
-const Op = db.Sequelize.Op;
+
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = asyncMiddleware(async (req, res) => {
   // Save User to Database
   console.log("Processing func -> SignUp");
-  const user = await User.create({
+  await User.create({
     name: req.body.name,
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    password: bcrypt.hashSync(req.body.password, 8),
+    admin: req.body.admin,
+    status: req.body.status
   });
 
-  const roles = await Role.findAll({
-    where: {
-      name: {
-        [Op.or]: req.body.roles
-      }
-    }
-  });
-  await user.setRoles(roles);
   res.status(201).send({
     status: "User Berhasil Dibuat!"
   });
@@ -57,16 +50,7 @@ exports.signin = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
     where: {
       username: req.body.username
-    },
-    include: [
-      {
-        model: Role,
-        attributes: ["id", "name"],
-        through: {
-          attributes: ["userId", "roleId"]
-        }
-      }
-    ]
+    }
   });
   if (!user) {
     return res.status(404).send({
@@ -82,30 +66,27 @@ exports.signin = asyncMiddleware(async (req, res) => {
       accessToken: null,
       reason: "Password Salah!"
     });
+  } else if (user.status === "nonaktif") {
+    return res.status(401).send({
+      auth: false,
+      accessToken: null,
+      reason: "Akun Sedang Nonaktif!"
+    });
   }
 
   const token = jwt.sign(
-    { id: user.id, username: user.username },
+    { id: user.id_user, username: user.username },
     config.secret,
     {
       expiresIn: 86400 // expires in 24 hours
     }
   );
-  if (!user.roles[1]) {
-    res.status(200).send({
-      auth: true,
-      type: "Bearer",
-      accessToken: token,
-      Role: user.roles[0].name,
-      id_user: user.id
-    });
-  } else {
-    res.status(200).send({
-      auth: true,
-      type: "Bearer",
-      accessToken: token,
-      Role: user.roles[1].name,
-      id_user: user.id
-    });
-  }
+  res.status(200).send({
+    auth: true,
+    type: "Bearer",
+    accessToken: token,
+    admin: user.admin,
+    id_user: user.id_user,
+    status: user.status
+  });
 });

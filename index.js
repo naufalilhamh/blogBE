@@ -10,12 +10,12 @@ app.use(cors());
 
 require("./router/router.js")(app);
 
-// const db = require("./app/db.js");
-// const Role = db.role;
-// // force: true will drop the table if it already exists (comment this part after first run, to disable migration)
+const db = require("./app/db.js");
+
+// force: true will drop the table if it already exists (comment this part after first run, to disable migration)
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and Resync with { force: true }");
-//   initial();
+//   // initial();
 // });
 
 // require("./router/router.js")(app);
