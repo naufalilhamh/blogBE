@@ -65,17 +65,21 @@ module.exports = function(app) {
 
   //ini bagian user
   //tampil semua order
-  app.get(
-    "/orders",
-    // [authJwt.verifyToken]
-    orderController.tampilorder
-  );
+  app.get("/orders", orderController.tampilorder);
 
   //tampil order
-  app.get("/orders/:id", [authJwt.verifyToken], orderController.AmbilOrder);
+  app.get(
+    "/orders/:id",
+    // [authJwt.verifyToken],
+    orderController.AmbilOrder
+  );
 
   //input order
-  app.post("/orders/:id", [authJwt.verifyToken], orderController.tambahorder);
+  app.post(
+    "/orders/:id_buku/:id_user",
+    // [authJwt.verifyToken]
+    orderController.tambahorder
+  );
 
   // error handler 404
   app.use(function(req, res, next) {

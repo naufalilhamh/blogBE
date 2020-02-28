@@ -8,10 +8,10 @@ exports.tambahorder = asyncMiddleware(async (req, res) => {
   // Save order to Database
   console.log("Processing func -> Ordering");
   const user = await User.findOne({
-    where: { id: req.userId }
+    where: { id: req.params.id_user }
   });
   const books = await Book.findOne({
-    where: { id: req.params.id }
+    where: { id: req.params.id_buku }
   });
   await user.addBooks(books);
   res.status(201).send({
@@ -22,7 +22,7 @@ exports.tambahorder = asyncMiddleware(async (req, res) => {
 //show all orders
 exports.tampilorder = asyncMiddleware(async (req, res) => {
   const user = await User.findAll({
-    attributes: ["name", "username", "email"],
+    attributes: ["id", "name", "username", "email"],
     include: [
       {
         model: Book,
@@ -42,16 +42,15 @@ exports.tampilorder = asyncMiddleware(async (req, res) => {
     ]
   });
   res.status(200).json({
-    description: "Tampil Semua Order",
-    user: user
+    data: user
   });
 });
 
 //find order by user id
 exports.AmbilOrder = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
-    where: { id: req.userId },
-    attributes: ["name", "username", "email"],
+    where: { id: req.params.id },
+    attributes: ["id", "name", "username", "email"],
     include: [
       {
         model: Book,
@@ -71,7 +70,6 @@ exports.AmbilOrder = asyncMiddleware(async (req, res) => {
     ]
   });
   res.status(200).json({
-    description: "Halaman Order User",
-    user: user
+    data: user
   });
 });
