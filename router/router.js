@@ -3,51 +3,50 @@ const bookAuth = require("./verifyBook");
 const authJwt = require("./verifyJwtToken");
 const authController = require("../controller/authController.js");
 const userController = require("../controller/userController.js");
+const komentarController = require("../controller/komentarController.js");
 const orderController = require("../controller/orderController.js");
-const bookController = require("../controller/bookController.js");
+const artikelController = require("../controller/artikelController.js");
 
 module.exports = function(app) {
+  // ARTIKEL
   /* Tampil book. */
   app.get(
-    "/books",
+    "/artikel",
     // , [authJwt.verifyToken]
-    bookController.tampilsemuabuku
+    artikelController.tampilsemuaartikel
   );
 
   /* Tampil book by ID. */
   app.get(
-    "/books/:id",
+    "/artikel/:id",
     // [authJwt.verifyToken],
-    bookController.caribuku
+    artikelController.tampilartikelperIDpembuat
   );
 
   /* Tambah book. */
   app.post(
-    "/books",
+    "/artikel/:id",
     // [authJwt.verifyToken, bookAuth.checkDuplicate, authJwt.isAdmin],
-    bookController.tambahbuku
+    artikelController.tambahartikel
   );
 
   /* Ubah book. */
   app.put(
-    "/books/:id",
+    "/artikel/:id",
     // [authJwt.verifyToken, authJwt.isAdmin],
-    bookController.updatebuku
+    artikelController.updatestatusartikel
   );
 
   /* Hapus book. */
   app.delete(
-    "/books/:id",
+    "/artikel/:id",
     // [authJwt.verifyToken, authJwt.isAdmin],
-    bookController.hapusbuku
+    artikelController.hapusartikel
   );
 
+  // USER
   /* REGISTER user. */
-  app.post(
-    "/register",
-    // [verifySignUp.checkRolesExisted],
-    authController.signup
-  );
+  app.post("/register", authController.signup);
   /* LOGIN user. */
   app.post("/login", authController.signin);
 
@@ -62,14 +61,30 @@ module.exports = function(app) {
     // [authJwt.verifyToken],
     userController.updatestatus
   );
-
   app.get(
     "/users/:id",
     // [authJwt.verifyToken],
     userController.userContent
   );
 
-  //ini bagian user
+  //KOMENTAR
+  app.post(
+    "/komentar/:id_artikel/:id_user",
+    // [authJwt.verifyToken, bookAuth.checkDuplicate, authJwt.isAdmin],
+    komentarController.tambahkomentar
+  );
+  app.put(
+    "/komentar/:id",
+    // [authJwt.verifyToken],
+    komentarController.updatestatuskomentar
+  );
+  //tampilkomentarperartikel
+  app.get(
+    "/komentar/:id",
+    // [authJwt.verifyToken],
+    komentarController.tampilkomentarperartikel
+  );
+
   //tampil semua order
   app.get("/orders", orderController.tampilorder);
 

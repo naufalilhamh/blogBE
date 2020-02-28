@@ -82,8 +82,7 @@ exports.managementBoard = asyncMiddleware(async (req, res) => {
 exports.updatestatus = asyncMiddleware(async (req, res) => {
   await User.update(
     {
-      status: req.body.status,
-      password: bcrypt.hashSync(req.body.password, 8)
+      status: req.body.status
     },
     { where: { id_user: req.params.id } }
   );
