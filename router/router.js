@@ -9,18 +9,38 @@ const artikelController = require("../controller/artikelController.js");
 
 module.exports = function(app) {
   // ARTIKEL
-  /* Tampil book. */
+
   app.get(
     "/artikel",
     // , [authJwt.verifyToken]
+    artikelController.tampilsemuaartikelhide
+  );
+  app.get(
+    "/artikelkomen/:id",
+    // [authJwt.verifyToken],
+    komentarController.tampilkomentarperartikel
+  );
+  app.get(
+    "/artikelu",
+    // , [authJwt.verifyToken]
     artikelController.tampilsemuaartikel
+  );
+  app.get(
+    "/artikelg",
+    // , [authJwt.verifyToken]
+    artikelController.tampilsemuaartikelshow
   );
 
   /* Tampil book by ID. */
   app.get(
     "/artikel/:id",
     // [authJwt.verifyToken],
-    artikelController.tampilartikelperIDpembuat
+    artikelController.tampilartikelperIDartikel
+  );
+  app.get(
+    "/artikels/:id",
+    // [authJwt.verifyToken],
+    artikelController.tampilartikelperIDuser
   );
 
   /* Tambah book. */
@@ -79,11 +99,6 @@ module.exports = function(app) {
     komentarController.updatestatuskomentar
   );
   //tampilkomentarperartikel
-  app.get(
-    "/komentar/:id",
-    // [authJwt.verifyToken],
-    komentarController.tampilkomentarperartikel
-  );
 
   //tampil semua order
   app.get("/orders", orderController.tampilorder);

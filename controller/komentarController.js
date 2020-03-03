@@ -1,6 +1,7 @@
 const db = require("../app/db.js");
 const Artikel = db.artikel;
 const Komentar = db.komentar;
+const User = db.user;
 const asyncMiddleware = require("express-async-handler");
 
 exports.tambahkomentar = asyncMiddleware(async (req, res) => {
@@ -50,16 +51,29 @@ exports.updatebuku = asyncMiddleware(async (req, res) => {
 exports.tampilkomentarperartikel = asyncMiddleware(async (req, res) => {
   const artikel = await Artikel.findOne({
     where: { id_artikel: req.params.id },
-    attributes: ["id_artikel", "judul", "isi", "status", "id_user"],
+    attributes: [
+      "id_artikel",
+      "judul",
+      "isi",
+      "status",
+      "id_user",
+      "createdAt"
+    ],
+
     include: [
       {
         model: Komentar,
-        attributes: ["isi_komentar", "id_user", "status", "createdAt"]
+        attributes: ["id_user", "isi_komentar", "status", "createdAt"],
+        include: [
+          {
+            model: User,
+            attributes: ["id_user", "name"]
+          }
+        ]
       }
     ]
   });
   res.status(200).json({
-    description: "Tampil Komentar PerArtikel " + req.params.id,
     data: artikel
   });
 });

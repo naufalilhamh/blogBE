@@ -1,5 +1,6 @@
 const db = require("../app/db.js");
 const Artikel = db.artikel;
+const User = db.user;
 const asyncMiddleware = require("express-async-handler");
 
 exports.tambahartikel = asyncMiddleware(async (req, res) => {
@@ -64,9 +65,68 @@ exports.caribuku = asyncMiddleware(async (req, res) => {
 });
 
 //tampil buku by id
+exports.tampilsemuaartikelhide = asyncMiddleware(async (req, res) => {
+  const artikel = await Artikel.findAll({
+    where: { status: "hide" },
+    attributes: [
+      "id_artikel",
+      "judul",
+      "isi",
+      "id_user",
+      "status",
+      "createdAt"
+    ],
+    include: [
+      {
+        model: User,
+        attributes: ["id_user", "name"]
+      }
+    ]
+  });
+  res.status(200).json({
+    description: "Tampil Semua Artikel",
+    data: artikel
+  });
+});
 exports.tampilsemuaartikel = asyncMiddleware(async (req, res) => {
   const artikel = await Artikel.findAll({
-    attributes: ["id_artikel", "judul", "isi", "id_user", "status"]
+    attributes: [
+      "id_artikel",
+      "judul",
+      "isi",
+      "id_user",
+      "status",
+      "createdAt"
+    ],
+    include: [
+      {
+        model: User,
+        attributes: ["id_user", "name"]
+      }
+    ]
+  });
+  res.status(200).json({
+    description: "Tampil Semua Artikel",
+    data: artikel
+  });
+});
+exports.tampilsemuaartikelshow = asyncMiddleware(async (req, res) => {
+  const artikel = await Artikel.findAll({
+    where: { status: "show" },
+    attributes: [
+      "id_artikel",
+      "judul",
+      "isi",
+      "id_user",
+      "status",
+      "createdAt"
+    ],
+    include: [
+      {
+        model: User,
+        attributes: ["id_user", "name"]
+      }
+    ]
   });
   res.status(200).json({
     description: "Tampil Semua Artikel",
@@ -74,13 +134,43 @@ exports.tampilsemuaartikel = asyncMiddleware(async (req, res) => {
   });
 });
 
-exports.tampilartikelperIDpembuat = asyncMiddleware(async (req, res) => {
-  const artikel = await Artikel.findAll({
-    where: { id_user: req.params.id },
-    attributes: ["id_artikel", "judul", "isi", "status", "id_user"]
+exports.tampilartikelperIDartikel = asyncMiddleware(async (req, res) => {
+  const artikel = await Artikel.findOne({
+    where: { id_artikel: req.params.id },
+    attributes: [
+      "id_artikel",
+      "judul",
+      "isi",
+      "status",
+      "id_user",
+      "createdAt"
+    ],
+    include: [
+      {
+        model: User,
+        attributes: ["id_user", "name"]
+      }
+    ]
   });
   res.status(200).json({
-    description: "Tampil Artikel PerID " + req.params.id,
+    description: "Tampil Artikel ID " + req.params.id,
+    data: artikel
+  });
+});
+exports.tampilartikelperIDuser = asyncMiddleware(async (req, res) => {
+  const artikel = await Artikel.findAll({
+    where: { id_user: req.params.id },
+    order: [["id_artikel", "DESC"]],
+    attributes: ["id_artikel", "judul", "isi", "status", "id_user"],
+    include: [
+      {
+        model: User,
+        attributes: ["id_user", "name"]
+      }
+    ]
+  });
+  res.status(200).json({
+    description: "Tampil Artikel ID pembuatnya" + req.params.id,
     data: artikel
   });
 });
