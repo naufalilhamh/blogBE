@@ -103,14 +103,19 @@ module.exports = function(app) {
     komentarController.tambahkomentar
   );
   app.put(
-    "/komentar/:id",
+    "/komentartampil/:id",
     // [authJwt.verifyToken],
-    komentarController.updatestatuskomentar
+    komentarController.tampilkankomen
+  );
+  app.put(
+    "/komentarsembunyi/:id",
+    // [authJwt.verifyToken],
+    komentarController.sembunyikankomen
   );
   app.get(
     "/komentar",
     // [authJwt.verifyToken],
-    komentarController.tampilsemuakomentarhide
+    komentarController.tampilsemuakomentar
   );
   app.delete(
     "/komentar/:id",

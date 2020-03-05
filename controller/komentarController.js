@@ -21,10 +21,21 @@ exports.tambahkomentar = asyncMiddleware(async (req, res) => {
   });
 });
 
-exports.updatestatuskomentar = asyncMiddleware(async (req, res) => {
+exports.tampilkankomen = asyncMiddleware(async (req, res) => {
   await Komentar.update(
     {
       status: "show"
+    },
+    { where: { id_komentar: req.params.id } }
+  );
+  res.status(201).send({
+    status: "Komentar Sudah Tampil!"
+  });
+});
+exports.sembunyikankomen = asyncMiddleware(async (req, res) => {
+  await Komentar.update(
+    {
+      status: "hide "
     },
     { where: { id_komentar: req.params.id } }
   );
@@ -107,9 +118,8 @@ exports.caribuku = asyncMiddleware(async (req, res) => {
 });
 
 //tampil buku by id
-exports.tampilsemuakomentarhide = asyncMiddleware(async (req, res) => {
+exports.tampilsemuakomentar = asyncMiddleware(async (req, res) => {
   const komentar = await Komentar.findAll({
-    where: { status: "hide" },
     attributes: ["id_komentar", "isi_komentar", "id_user", "status"],
     include: [
       {
