@@ -1,6 +1,8 @@
 const db = require("../app/db.js");
 const Artikel = db.artikel;
 const User = db.user;
+const Komentar = db.komentar;
+
 const asyncMiddleware = require("express-async-handler");
 
 exports.tambahartikel = asyncMiddleware(async (req, res) => {
@@ -15,10 +17,21 @@ exports.tambahartikel = asyncMiddleware(async (req, res) => {
     status: "Artikel Berhasil Dibuat!"
   });
 });
-exports.updatestatusartikel = asyncMiddleware(async (req, res) => {
+exports.tampilkan = asyncMiddleware(async (req, res) => {
   await Artikel.update(
     {
       status: "show"
+    },
+    { where: { id_artikel: req.params.id } }
+  );
+  res.status(201).send({
+    status: "Status Artikel Sudah Tampil!"
+  });
+});
+exports.sembunyikan = asyncMiddleware(async (req, res) => {
+  await Artikel.update(
+    {
+      status: "hide"
     },
     { where: { id_artikel: req.params.id } }
   );

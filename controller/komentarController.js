@@ -6,6 +6,7 @@ const asyncMiddleware = require("express-async-handler");
 
 exports.tambahkomentar = asyncMiddleware(async (req, res) => {
   // Add book to Database
+
   await Komentar.create({
     isi_komentar: req.body.isi_komentar,
     id_artikel: req.params.id_artikel,
@@ -59,11 +60,19 @@ exports.tampilkomentarperartikel = asyncMiddleware(async (req, res) => {
       "id_user",
       "createdAt"
     ],
-
     include: [
       {
         model: Komentar,
-        attributes: ["id_user", "isi_komentar", "status", "createdAt"],
+        where: { status: "show" },
+        required: false,
+        require: false,
+        attributes: [
+          "id_komentar",
+          "id_user",
+          "isi_komentar",
+          "status",
+          "createdAt"
+        ],
         include: [
           {
             model: User,
@@ -98,19 +107,28 @@ exports.caribuku = asyncMiddleware(async (req, res) => {
 });
 
 //tampil buku by id
-exports.tampilsemuaartikel = asyncMiddleware(async (req, res) => {
-  const artikel = await Artikel.findAll({
-    attributes: ["id_artikel", "judul", "isi", "id_user", "status"]
+exports.tampilsemuakomentarhide = asyncMiddleware(async (req, res) => {
+  const komentar = await Komentar.findAll({
+    where: { status: "hide" },
+    attributes: ["id_komentar", "isi_komentar", "id_user", "status"],
+    include: [
+      {
+        model: User,
+        attributes: ["id_user", "name"]
+      }
+    ]
   });
+  console.log(req.data);
+
   res.status(200).json({
     description: "Tampil Semua Artikel",
-    data: artikel
+    data: komentar
   });
 });
 
 //delete book by id
-exports.hapusartikel = asyncMiddleware(async (req, res) => {
-  await Artikel.destroy({ where: { id_artikel: req.params.id } });
+exports.hapuskomentar = asyncMiddleware(async (req, res) => {
+  await Komentar.destroy({ where: { id_komentar: req.params.id } });
   res.status(201).send({
     status: "Hapus Artikel Berhasil!"
   });

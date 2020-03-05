@@ -16,6 +16,11 @@ module.exports = function(app) {
     artikelController.tampilsemuaartikelhide
   );
   app.get(
+    "/artikelsem",
+    // , [authJwt.verifyToken]
+    artikelController.tampilsemuaartikel
+  );
+  app.get(
     "/artikelkomen/:id",
     // [authJwt.verifyToken],
     komentarController.tampilkomentarperartikel
@@ -52,11 +57,15 @@ module.exports = function(app) {
 
   /* Ubah book. */
   app.put(
-    "/artikel/:id",
+    "/artikeltampil/:id",
     // [authJwt.verifyToken, authJwt.isAdmin],
-    artikelController.updatestatusartikel
+    artikelController.tampilkan
   );
-
+  app.put(
+    "/artikelsembunyi/:id",
+    // [authJwt.verifyToken, authJwt.isAdmin],
+    artikelController.sembunyikan
+  );
   /* Hapus book. */
   app.delete(
     "/artikel/:id",
@@ -98,6 +107,17 @@ module.exports = function(app) {
     // [authJwt.verifyToken],
     komentarController.updatestatuskomentar
   );
+  app.get(
+    "/komentar",
+    // [authJwt.verifyToken],
+    komentarController.tampilsemuakomentarhide
+  );
+  app.delete(
+    "/komentar/:id",
+    // [authJwt.verifyToken],
+    komentarController.hapuskomentar
+  );
+
   //tampilkomentarperartikel
 
   //tampil semua order
