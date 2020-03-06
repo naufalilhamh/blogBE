@@ -73,6 +73,10 @@ exports.tampilkomentarperartikel = asyncMiddleware(async (req, res) => {
     ],
     include: [
       {
+        model: User,
+        attributes: ["id_user", "name"]
+      },
+      {
         model: Komentar,
         where: { status: "show" },
         required: false,

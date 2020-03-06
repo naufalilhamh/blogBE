@@ -87,6 +87,7 @@ exports.signin = asyncMiddleware(async (req, res) => {
     accessToken: token,
     admin: user.admin,
     id_user: user.id_user,
-    status: user.status
+    status: user.status,
+    name: user.name
   });
 });
